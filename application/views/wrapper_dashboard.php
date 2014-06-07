@@ -87,11 +87,6 @@
                 <div class="col-lg-12">
                     <? echo $output ?>
                     
-                    
-
-
-	
-
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
