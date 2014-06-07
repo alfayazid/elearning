@@ -10,10 +10,16 @@
 
 
 
-        <form action = "<? echo base_url('index.php/rest_client/proses_ubah') ?>" class="form-horizontal" role="form">
+        
 
 
-
+<?
+              $attr = array(
+                'role' => 'form',
+                'class' => 'form-horizontal'
+              ); 
+             ?>
+            <?php echo form_open('rest_client/proses_edit_user',$attr) ?>
 
         <input name="id" type="hidden" class="form-control" id="inputEmail3" value="<?php echo $row->id; ?>">
 
