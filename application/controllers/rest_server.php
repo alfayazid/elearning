@@ -102,7 +102,7 @@ class Rest_Server extends REST_Controller
 						   	'status' => $this->post('status')
 						);   
 
-			if($this->get('svaha')==1){ 
+			if($this->get('mboh')==1){ 
 				$query = $this->model_user->insert_user($data); 
 			} 
 			if($query) { $this->response($query, 200); 
@@ -147,6 +147,17 @@ class Rest_Server extends REST_Controller
 			else { $this->response(array('error' => 'User could not be found'), 404); } 
 		} 
 
+			function update_user_post() { 
+			
+			$data = array( 	'status' => $this->post('status')
+							
+						);   
+			
+			$id = $this->get('id'); 
+			$query = $this->model_user->update_user($id,$data); 
+			$this->response($query, 200); 
+		}   
+
 
 function matkul_get() {  
 			
@@ -155,7 +166,26 @@ function matkul_get() {
 			}   
 			else { $this->response(array('error' => 'User could not be found'), 404); } 
 		} 
-		
+
+			
+	function tambah_matkul_post() { 
+
+			$data = array( 	'nama_matkul' => $this->post('nama_matkul'), 
+						   	'enroll' => $this->post('enroll')
+						   	
+						);   
+
+			if($this->get('coba')==1){ 
+				$query = $this->model_matkul->insert_matkul($data); 
+			} 
+			if($query) { $this->response($query, 200); 
+			} 
+			else 
+				{ 
+					$this->response($query, 404); // 200 being the HTTP response code 
+				} 
+		}
+
 	
 
 
