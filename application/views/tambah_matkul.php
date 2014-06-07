@@ -1,7 +1,7 @@
 <br />
 <div class="panel panel-info">
     <div class="panel-heading">
-        <? echo $judul ?>
+        <i class="fa fa-book fa-fw"></i>  <? echo $judul ?>
     </div>
         <div class="panel-body">
             
@@ -30,7 +30,7 @@
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
-                        <button class="btn btn-danger" type="submit">Submit</button>
+                        <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-thumbs-up"></span>  Submit</button>
                     </div>
                   </div>
 

@@ -1,19 +1,19 @@
-    <h1 class="page-header">Blank</h1>
+    <h1 class="page-header"><i class="fa fa-users fa-fw"></i> List User</h1>
                     
                     
 
 
     <table class="table table-bordered">
-        <thead>
-          <tr>
+        <thead >
+          <tr class="info">
             
             
-            <th>Level</th>
-            <th>Nama</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">Nama</th>
+            <th class="text-center">Username</th>
+            <th class="text-center">Password</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                             <td><?php echo $row->password; ?></td>
                             <td><?php echo $row->status; ?></td>
 
-                            <td><a href="<?php echo base_url(); ?>index.php/rest_client/detail_user/<?php echo $row->id; ?>" class="btn btn-primary">Detail User</a></td>
+                            <td class="text-center"><a href="<?php echo base_url(); ?>index.php/rest_client/detail_user/<?php echo $row->id; ?>" class="btn btn-success"><span class="glyphicon glyphicon-th-list"></span>  Detail User</a></td>
                           </tr>
             
                 

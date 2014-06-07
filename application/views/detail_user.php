@@ -1,6 +1,6 @@
 <br />
 <div class="panel panel-info">
-  <div class="panel-heading">Detail User</div>
+  <div class="panel-heading"><i class="fa fa-users fa-fw"></i> Detail User</div>
   <div class="panel-body">
     
 
@@ -55,7 +55,15 @@
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-10">
-      <input name="status"  type="text" class="form-control" id="inputPassword3" >
+      
+
+      <select name="status" class="form-control">
+          <option value="<? echo $row->status; ?>"><? echo $row->status; ?></option>
+          <option value="Aktif">Aktif</option>
+          <option value="Tidak Aktif">Tidak Aktif</option>
+          
+      </select>
+
     </div>
   </div>
 
@@ -66,7 +74,7 @@
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label"></label>
     <div class="col-sm-10">
-      <button class="btn btn-primary" type="submit">Update</button>
+      <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-thumbs-up"></span>  Update</button>
     </div>
   </div>
 
