@@ -16,6 +16,11 @@
         return $this->db->query("select * from tbl_matkul where id=$id ")->result();
     }
 
+     function insert_matkul($data){
+        $query = $this->db->insert('tbl_matkul',$data);
+        return $query;
+    }
+
     function update_matkul($id,$data){
         $this->db->where('id',$id);
         $query = $this->db->update('tbl_user',$data);
