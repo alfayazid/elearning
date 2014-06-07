@@ -78,7 +78,7 @@ public function form_register(){
 						'status' => $this->input->post('status')
 						
 					); 
-		$query = $this->rest->post('register/svaha/1/format/php',$data); 
+		$query = $this->rest->post('register/mboh/1/format/php',$data); 
 		if($query) { 
 			//echo $query; 
 			
@@ -164,11 +164,14 @@ public function form_register(){
 	public function proses_edit_user(){ 
 
 		$id = $this->input->post('id');   
-		$status = $this->input->post('status'); 
-		if($query = $this->rest->post('update_user/id/'.$id.'/format/php',$status))
+		$data = array(	'status' => $this->input->post('status')
+						
+					);   
+
+		if($query = $this->rest->post('update_user/id/'.$id.'/format/php',$data))
 		{ 
-			echo "<script>alert('Proses edit barang sukses'); 
-					window.close ();</script>"; 
+			
+					redirect('rest_client/list_user');
 		} 
 		else 
 			{ 
@@ -188,6 +191,33 @@ public function form_register(){
 		$this->load->view('wrapper_dashboard',$data);
 	}
 
+	public function tambah_matkul(){ 
+		
+		$data['judul'] = 'Tambah Mata Kuliah';
+		$data['output']	=$this->load->view('tambah_matkul',$data,TRUE);
+		$this->load->view('wrapper_dashboard',$data);
+		
+	}   
+
+	/* * fungsi untuk menambahkan brang ke data base */ 
+	
+	
+	public function proses_tambah_matkul(){ 
+		$data = array( 	'nama_matkul' => $this->input->post('nama_matkul'), 
+						'enroll' => $this->input->post('enroll')
+						
+					); 
+		$query = $this->rest->post('tambah_matkul/coba/1/format/php',$data); 
+		if($query) { 
+			//echo $query; 
+			
+			redirect('rest_client/tampil_matkul'); 
+		} 
+		else 
+			{ 
+				echo "<script>alert('Terjadi Error Saat Query')</script>"; 
+			} 
+	} 
 	
 
 
