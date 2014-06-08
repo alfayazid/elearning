@@ -26,6 +26,9 @@
 	    		<span class="glyphicon glyphicon-book"></span>
 	    		<h2>E-Learning</h2>
 	    		<div class="box">
+          <?if($this->session->flashdata('flashInfo')):?>
+            <p class='flashMsg flashInfo'> <?=$this->session->flashdata('akun')?> </p>
+          <?endif?>
 	    		<?php echo form_open('rest_client/proses_login'); ?>
 	        		<input name="username" type="text" placeholder="username" value="<?php echo set_value('username');?>">
 		    		<input name="password" type="password" placeholder="password" value="<?php echo set_value('password');?>">

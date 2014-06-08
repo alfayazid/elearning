@@ -63,14 +63,31 @@
                 <div class="sidebar-collapse">
                     <ul class="nav" id="side-menu">
                         
+                        <?    
+                            if($this->session->userdata('logged_in')!="" && $this->session->userdata('level')=="Admin")
+                            { ?>
+                            <li>
+                                <a href="<? echo base_url('index.php/rest_client/list_user'); ?>"><i class="fa fa-users fa-fw"></i> List User</a>
+                            </li>
+                            <li>
+                                   <a href="<? echo base_url('index.php/rest_client/tampil_matkul'); ?>"><i class="fa fa-book fa-fw"></i> Mata Kuliah</a>
+                            </li>
+                            <? }
+
+                            if($this->session->userdata('logged_in')!="" && $this->session->userdata('level')=="Dosen")
+                            { ?>
+                            
+                            <li>
+                                   <a href="<? echo base_url('index.php/rest_client/tampil_matkul_dosen'); ?>"><i class="fa fa-book fa-fw"></i> Mata Kuliah</a>
+                            </li>
+
+                            <? }
+
+                        ?>
+
                         
 
-                        <li>
-                            <a href="<? echo base_url('index.php/rest_client/list_user'); ?>"><i class="fa fa-users fa-fw"></i> List User</a>
-                        </li>
-                        <li>
-                               <a href="<? echo base_url('index.php/rest_client/tampil_matkul'); ?>"><i class="fa fa-book fa-fw"></i> Mata Kuliah</a>
-                        </li>
+                        
 
                         
                         

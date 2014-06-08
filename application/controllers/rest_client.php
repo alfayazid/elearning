@@ -18,8 +18,16 @@ class Rest_Client extends CI_Controller {
 	public function index()
 	{
 		//$data['methods_list'] = $this->displayAPI();
-		//$this->load->view('restDoc',$data);				
+		//$this->load->view('restDoc',$data);
+		if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Aktif") {				
+		$this->session->set_flashdata('akun', 'Akun anda belum aktif');
 		redirect('rest_client/list_user');
+		}
+
+		else if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Tidak Aktif") {				
+		$this->session->set_flashdata('akun', 'Akun anda belum aktif');
+		redirect('rest_client/logout');
+		}
 	}
 	
 	/**
@@ -46,7 +54,7 @@ class Rest_Client extends CI_Controller {
         	$methods_html .= '</dl>';
         }
         	
-	echo '<pre>';
+		echo '<pre>';
 		print_r($methods);
 		echo '</pre>';         
 
@@ -60,10 +68,12 @@ class Rest_Client extends CI_Controller {
 
 
 
+	/**
+	FUNGSI REGISTER
+	*//
 
 
-
-public function form_register(){ 
+	public function form_register(){ 
 		//$this->load->view('barang/script'); 
 		$this->load->view('form_register'); 
 	}   
@@ -80,9 +90,7 @@ public function form_register(){
 					); 
 		$query = $this->rest->post('register/mboh/1/format/php',$data); 
 		if($query) { 
-			//echo $query; 
-			
-			redirect('rest_client'); 
+			redirect('rest_client/login'); 
 		} 
 		else 
 			{ 
@@ -90,6 +98,9 @@ public function form_register(){
 			} 
 	} 
 
+	/**
+	FUNGSI ADMIN
+	*//
 
 	public function proses_ubah(){ 
 		$id = $this->input->post('id');   
@@ -107,42 +118,7 @@ public function form_register(){
 			} 
 	} 
 
-
-
-	public function login(){ 
-		//$this->load->view('barang/script'); 
-		$this->load->view('login'); 
-	}   
-
-	/* * fungsi untuk menambahkan brang ke data base */ 
-	
-	public function proses_login(){ 
-		$data = array( 	
-						'username' => $this->input->post('username'), 
-						'password' => $this->input->post('password'), 
-						
-					); 
-		$query = $this->rest->post('login/format/php',$data); 
-		if($query) { 
-			redirect('dashboard');
-			//echo "<script>alert('Tambah Barang Berhasil')</script>"; 
-			
-		} 
-		else 
-			{ 
-				echo "<script>alert('Terjadi Error Saat Query')</script>"; 
-				redirect('rest_client/login');
-			} 
-	}
-
-	public function logout() {
-   			$this->session->sess_destroy();
-	   		redirect('rest_client/login');
-  		} 
-
-
-
-  	public function list_user() { 
+	public function list_user() { 
 		$query =$this->rest->get('alluser/format/json');
 		$data['user']=$query; 
 			
@@ -164,14 +140,11 @@ public function form_register(){
 	public function proses_edit_user(){ 
 
 		$id = $this->input->post('id');   
-		$data = array(	'status' => $this->input->post('status')
-						
-					);   
-
+		$data = array('status' => $this->input->post('status'));   
 		if($query = $this->rest->post('update_user/id/'.$id.'/format/php',$data))
 		{ 
 			
-					redirect('rest_client/list_user');
+			redirect('rest_client/list_user');
 		} 
 		else 
 			{ 
@@ -183,17 +156,16 @@ public function form_register(){
 	public function tampil_matkul() { 
 		$query =$this->rest->get('matkul/format/json');
 		$data['matkul']=$query; 
-			
-		
-		//$this->load->view('dashboard',$data); 
-
 		$data['output']	=$this->load->view('list_matkul',$data,TRUE);
 		$this->load->view('wrapper_dashboard',$data);
 	}
 
+
+
 	public function tambah_matkul(){ 
 		
 		$data['judul'] = 'Tambah Mata Kuliah';
+		$data['dosen'] = $this->model_user->tampil_dosen();
 		$data['output']	=$this->load->view('tambah_matkul',$data,TRUE);
 		$this->load->view('wrapper_dashboard',$data);
 		
@@ -209,8 +181,6 @@ public function form_register(){
 					); 
 		$query = $this->rest->post('tambah_matkul/coba/1/format/php',$data); 
 		if($query) { 
-			//echo $query; 
-			
 			redirect('rest_client/tampil_matkul'); 
 		} 
 		else 
@@ -218,80 +188,81 @@ public function form_register(){
 				echo "<script>alert('Terjadi Error Saat Query')</script>"; 
 			} 
 	} 
-	
-
-
-
-
-
-
-
-
-
-	
-	public function getUsers()
-	{
-		echo '<pre>';
-		print_r($this->rest->get('users/format/json'));
-		echo '</pre>';
-	}
-	
-	/**
-	 * 
-	 * Access API "users" using GET through json_decode
-	 */
-	public function getUsersJson()
-	{
-		echo '<pre>';
-		print_r(json_decode(file_get_contents($this->config->item('rest_server').'users/format/json')));
-		echo '</pre>';		
-	}
-	
-	/**
-	 * 
-	 * Access API "user" using GET through Phil's rest client
-	 */
-	public function getUser($id)
-	{
-		echo '<pre>';
-		print_r($this->rest->get('user/id/'.$id.'/format/json'));
-		echo '</pre>';
-	}
-
-	
-	
-	/**
-	 * 
-	 * Access API "user" using DELETE through Phil's rest client
-	 */
-	public function delUser()
-	{
-		echo '<pre>';
-		print_r($this->rest->delete('user/id/2/format/json'));
-		echo '</pre>';
-	}
 
 	/**
-	 * 
-	 * Access API "helloWorld" using GET through Phil's rest client
-	 */
-	public function helloWorld()
-	{
-		echo '<pre>';
-		print_r($this->rest->get('helloWorld/format/json'));
-		echo '</pre>';
+	FUNGSI LOGIN
+	*//
+
+	public function login(){ 
+		//$this->load->view('barang/script'); 
+		$this->load->view('login'); 
+	}   
+
+	/* * fungsi untuk menambahkan brang ke data base */ 
+
+
+	
+	public function proses_login(){ 
+		$data = array( 	
+						'username' => $this->input->post('username'), 
+						'password' => $this->input->post('password'), 
+						
+					); 
+
+		$query = $this->rest->post('login/format/php',$data); 
+		$user = $this->input->post('username');
+		$login = $this->db->query("select * from tbl_user where username='$user'");
+          if($login->num_rows()>0)
+            {
+            foreach($login->result() as $qad)
+            {
+              $sess_data['logged_in'] = 'yesGetMeLoginBaby';
+              $sess_data['id_user'] = $qad->id;
+              $sess_data['nama'] = $qad->nama;
+              $sess_data['user'] = $qad->username;
+              $sess_data['password'] = $qad->password;
+              $sess_data['level'] = $qad->level;
+              $sess_data['status'] = $qad->status;
+              $this->session->set_userdata($sess_data);
+            }
+            
+          }
+
+		
+		redirect('rest_client');
 	}
 
-	/**
-	 * 
-	 * Access API "contacts" using GET through Phil's rest client
-	 */	
-	public function getContacts()
-	{
-		echo '<pre>';
-		print_r($this->rest->get('contacts/format/json'));
-		echo '</pre>';		
-	}	
+
+
+	public function logout() {
+			if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Tidak Aktif") {				
+			$this->session->set_flashdata('akun', 'Akun anda belum aktif');
+		}
+   			$this->session->sess_destroy();
+	   		redirect('rest_client/login');
+  		} 
+
+
+
+  	
+	
+
+
+	/** 
+	Funntion Dosen 
+	**/
+
+	public function tampil_matkul_dosen() { 
+		$query =$this->rest->get('matkul_dosen/format/json');
+		$data['matkul_dosen']=$query; 
+		$data['output']	=$this->load->view('list_matkul_dosen',$data,TRUE);
+		$this->load->view('wrapper_dashboard',$data);
+	}
+
+
+
+
+
 	
 	/**
 	 * 

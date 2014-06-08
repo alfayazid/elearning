@@ -28,6 +28,23 @@
                   </div>
 
                   <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Nama dosen</label>
+                    <div class="col-sm-10">
+                        
+                        <select name="dosen" class="form-control">
+                        
+                        <? if(isset($dosen)){
+                          foreach ($dosen as $row ) { 
+                        ?>
+                          <option value="<? echo $row->id; ?>"><? echo $row->nama; ?></option>
+                        <? } } ?>
+                          
+                        </select>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-thumbs-up"></span>  Submit</button>

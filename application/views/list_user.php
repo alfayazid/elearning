@@ -1,5 +1,22 @@
+    
+
+<?    
+    if($this->session->userdata('logged_in')!="" && $this->session->userdata('level')=="Admin")
+    { ?>
     <h1 class="page-header"><i class="fa fa-users fa-fw"></i> List User</h1>
+    <?php echo $this->session->flashdata('akun');?>
+    <? }
+
+    if($this->session->userdata('logged_in')!="" && $this->session->userdata('level')=="Dosen")
+    { ?>
+    <h1 class="page-header"><i class="fa fa-users fa-fw"></i> List User Dosen</h1>
+
+    <? }
+
+    ?>
+
                     
+    <? echo $this->session->userdata('user'); ?>
                     
 
 

@@ -118,24 +118,26 @@ class Rest_Server extends REST_Controller
 
 		function login_post()
     	{
-    	$username = $this->input->post('username');
-       	$password = $this->input->post('password');
-        $result = $this->model_user->ambilPengguna($username, $password, 1/*, $level*/);
-        if($result->num_rows() <> 0) {
-			
-	         
-	        if($result) 
-	        	{ 
-	        		
-	        		$this->response($query, 200); 
-				} 
-				else 
-					{ 
-						$this->response($query, 404); // 200 being the HTTP response code 
-					} 
-         
-    	}
+    	$username = $this->post('username');
+       	$password = $this->post('password');
+        $result = $this->model_user->ambilPengguna($username, $password/*, $level*/);
 
+        
+            foreach($result->result() as $qad)
+            {
+              $sess_data['logged_in'] = 'yesGetMeLoginBaby';
+              $sess_data['id_user'] = $qad->id;
+              $sess_data['nama'] = $qad->nama;
+              $sess_data['user'] = $qad->username;
+              $sess_data['password'] = $qad->password;
+              $sess_data['level'] = $qad->level;
+              $sess_data['status'] = $qad->status;
+              $this->session->set_userdata($sess_data);
+            }
+            
+        
+
+        $this->response($result, 200); 
 		}
 
 
@@ -187,6 +189,17 @@ function matkul_get() {
 		}
 
 	
+/**
+	Function dosen
+**/
+
+		function matkul_dosen_get() {  
+			$user_id = $this->session->userdata('id_user');
+			$query = $this->model_matkul->tampil_matkul_dosen($user_id);   
+			if($query) { $this->response($query, 200); 
+			}   
+			else { $this->response(array('error' => 'User could not be found'), 404); } 
+		} 
 
 
 

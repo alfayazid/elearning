@@ -5,6 +5,7 @@
         foreach ($matkul as $row ) { 
     ?>
         <h3><span class="glyphicon glyphicon-book"></span></span> <? echo $row->nama_matkul; ?></h3>
+        Dosen : <? echo $row->nama; ?>
         <hr />
 
     <?

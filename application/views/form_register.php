@@ -29,15 +29,19 @@
 	    		<?php echo form_open('rest_client/register_rest') ?>
 
 
-	        		<input name="status" type="hidden" value="0">
-	        		<input name="level" type="text" placeholder="Level">
+	        		<input name="status" type="hidden" value="Tidak Aktif">
+              <select name="level">
+                <option value="Dosen">Dosen</option>
+                <option value="Mahasiswa">Mahasiswa</option>
+              </select>
+	        		
 	        		<input name="nama" type="text" placeholder="Nama">
 	        		<input name="username" type="text" placeholder="Username">
 	        		<input name="password" type="text" placeholder="Password">
 
 		    		
 		    		<button type="submit" class="btn btn-default full-width"><span class="glyphicon glyphicon-ok"></span></button>
-		    		<a class="btn btn-default full-width" href="<? echo base_url('index.php/rest_client_login/login'); ?>"><span class="glyphicon glyphicon-remove"></span></a>
+		    		<a class="btn btn-default full-width" href="<? echo base_url('index.php/rest_client/login'); ?>"><span class="glyphicon glyphicon-remove"></span></a>
 		    		
 		    	<?php echo form_close(); ?>
 	    		</div>
