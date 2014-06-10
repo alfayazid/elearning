@@ -19,14 +19,20 @@ class Rest_Client extends CI_Controller {
 	{
 		//$data['methods_list'] = $this->displayAPI();
 		//$this->load->view('restDoc',$data);
-		if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Aktif") {				
-		$this->session->set_flashdata('akun', 'Akun anda belum aktif');
-		redirect('rest_client/list_user');
+		if($this->session->userdata('logged_in')!="") {
+			if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Aktif") {				
+			$this->session->set_flashdata('akun', 'Akun anda belum aktif');
+			redirect('rest_client/list_user');
+			}
+
+			else if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Tidak Aktif") {				
+			$this->session->set_flashdata('akun', 'Akun anda belum aktif');
+			redirect('rest_client/logout');
+			}
 		}
 
-		else if($this->session->userdata('logged_in')!="" && $this->session->userdata('status')=="Tidak Aktif") {				
-		$this->session->set_flashdata('akun', 'Akun anda belum aktif');
-		redirect('rest_client/logout');
+		else if ($this->session->userdata('logged_in')=="") {
+			redirect('rest_client/login');
 		}
 	}
 	
@@ -70,7 +76,7 @@ class Rest_Client extends CI_Controller {
 
 	/**
 	FUNGSI REGISTER
-	*//
+	*/
 
 
 	public function form_register(){ 
@@ -100,7 +106,7 @@ class Rest_Client extends CI_Controller {
 
 	/**
 	FUNGSI ADMIN
-	*//
+	*/
 
 	public function proses_ubah(){ 
 		$id = $this->input->post('id');   
@@ -191,17 +197,19 @@ class Rest_Client extends CI_Controller {
 
 	/**
 	FUNGSI LOGIN
-	*//
+	**/
 
 	public function login(){ 
-		//$this->load->view('barang/script'); 
-		$this->load->view('login'); 
+		
+		if($this->session->userdata('logged_in')=="") {
+			$this->load->view('login'); 
+		}
+
+		else if($this->session->userdata('logged_in')!="") {
+			redirect('rest_client');
+		}
 	}   
 
-	/* * fungsi untuk menambahkan brang ke data base */ 
-
-
-	
 	public function proses_login(){ 
 		$data = array( 	
 						'username' => $this->input->post('username'), 
@@ -257,6 +265,121 @@ class Rest_Client extends CI_Controller {
 		$data['matkul_dosen']=$query; 
 		$data['output']	=$this->load->view('list_matkul_dosen',$data,TRUE);
 		$this->load->view('wrapper_dashboard',$data);
+	}
+
+
+	/**
+	SOAAAL
+	**/
+
+	function lihatsoal()
+	{
+		
+		
+		$id_mk='';		
+		if ($this->uri->segment(3) === FALSE)
+		{
+    			$id_mk='';
+		}
+		else
+		{
+    			$id_mk = $this->uri->segment(3);
+		}
+		
+		$query=$this->model_matkul->Lihat_Soal($id_mk);
+		$judul=$this->model_matkul->Judul_MK($id_mk);
+		$data = array('query' => $query,'judul'=>$judul);
+		$data['output']	=$this->load->view('lihat_soal',$data,TRUE);
+		$this->load->view('wrapper_dashboard',$data);
+	}
+
+
+	function ikutites()
+	{
+		
+		
+		$id_mk='';		
+		if ($this->uri->segment(3) === FALSE)
+		{
+    			$id_mk='';
+		}
+		else
+		{
+    			$id_mk = $this->uri->segment(3);
+		}
+		$no_soal='';		
+		if ($this->uri->segment(4) === FALSE)
+		{
+    			$no_soal='';
+		}
+		else
+		{
+    			$no_soal = $this->uri->segment(4);
+		}
+		
+		$data["judul"]=$this->model_matkul->Judul_MK($id_mk);
+		$data["soal"] = $this->model_matkul->Tampilkan_Soal($id_mk,$no_soal);
+		$data["jumlah"] = $data["soal"]->num_rows;
+		
+		
+		$data['output']	=$this->load->view('mulai_tes',$data,TRUE);
+		$this->load->view('wrapper_dashboard',$data);
+		
+		
+	}
+
+	function hasiltes()
+	{
+		
+		$data=array();
+		$jumlah = $this->input->post('banyak_soal');
+		$jawaban= $this->input->post('pilih');
+		$matkul = $this->input->post('matkul');
+		$id_mk = $this->input->post('id_mk');
+		$no_soal = $this->input->post('no_soal');
+		$query=$this->model_matkul->Hitung_Hasil($id_mk,$no_soal);
+		$data["hit_hasil"]=$query;
+		$benar=0;
+		$salah=0;
+		foreach($query->result() as $hasil)
+		{
+			$jwb=$jawaban;
+			$id=$hasil->id_soal;
+			if($jwb[$id]==$hasil->kunci)
+			{
+				$benar++;
+			}
+			else {
+				$salah++;
+			}
+		}
+		$nilai=sprintf("%2.1f",$benar/$jumlah*100);
+		if($nilai<60){
+			$pesan="Belajarlah lebih baik lagi, sehingga bisa sukses di kemudian hari.";
+		}
+		else{
+			$pesan="Selamat dan tingkatkan lagi.";
+		}
+		$datainput=array();
+		$datainput["id_mk"]=$this->input->post('id_mk');
+		$datainput["no_soal"]=$this->input->post('no_soal');
+		$datainput["username"]=$this->session->userdata('user');
+		$datainput["salah"]=$salah;
+		$datainput["benar"]=$benar;
+		$datainput["hasil"]=$nilai;
+		if ($id_mk=="" AND $no_soal==""){
+			echo "Ouuuppppzzzz,,,soalnya belum dikerjakan boz!!!!";
+			echo "<meta http-equiv='refresh' content='0; url=".base_url()."index.php/rest_client/tampil_matkul'>";
+		}
+		else{
+			$this->model_matkul->Simpan_Hasil($datainput);
+		?>
+		<script type="text/javascript" language="javascript">
+		alert("<?php echo $this->session->userdata('user'); ?> telah mengikuti tes soal online <?php echo $matkul; ?>\n- Dengan total jawaban benar <?php echo $benar; ?> dan total jawaban salah <?php echo $salah; ?>.\n- Anda memperoleh nilai <?php echo $nilai; ?>\n- Pesan : <?php echo $pesan; ?>");
+		</script>
+		<?php
+		echo "<meta http-equiv='refresh' content='0; url=".base_url()."index.php/rest_client/tampil_matkul'>";
+		}
 	}
 
 

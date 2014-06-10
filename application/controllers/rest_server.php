@@ -169,6 +169,15 @@ function matkul_get() {
 			else { $this->response(array('error' => 'User could not be found'), 404); } 
 		} 
 
+
+	function lihatsoal_get() {  
+			
+			$query = $this->model_matkul->tampil_matkul();   
+			if($query) { $this->response($query, 200); 
+			}   
+			else { $this->response(array('error' => 'User could not be found'), 404); } 
+		} 
+
 			
 	function tambah_matkul_post() { 
 

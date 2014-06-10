@@ -27,6 +27,64 @@ body {
     background-color: #fff;
 }
 
+#page-wrapper a{
+    color: #428bca;
+  text-decoration: none;
+}
+
+.btn-danger-wrapper {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.btn-danger-wrapper a{
+  color: #fff;
+  
+}
+.btn-danger-wrapper:hover,
+.btn-danger-wrapper:focus,
+.btn-danger-wrapper:active,
+.btn-danger-wrapper.active,
+.open .dropdown-toggle.btn-danger-wrapper {
+  color: #fff;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+.btn-danger-wrapper:active,
+.btn-danger-wrapper.active,
+.open .dropdown-toggle.btn-danger-wrapper {
+  background-image: none;
+}
+.btn-danger-wrapper.disabled,
+.btn-danger-wrapper[disabled],
+fieldset[disabled] .btn-danger,
+.btn-danger-wrapper.disabled:hover,
+.btn-danger-wrapper[disabled]:hover,
+fieldset[disabled] .btn-danger-wrapper:hover,
+.btn-danger-wrapper.disabled:focus,
+.btn-danger-wrapper[disabled]:focus,
+fieldset[disabled] .btn-danger-wrapper:focus,
+.btn-danger-wrapper.disabled:active,
+.btn-danger-wrapper[disabled]:active,
+fieldset[disabled] .btn-danger-wrapper:active,
+.btn-danger-wrapper.disabled.active,
+.btn-danger-wrapper[disabled].active,
+fieldset[disabled] .btn-danger-wrapper.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.btn-danger-wrapper .badge {
+  color: #d9534f;
+  background-color: #fff;
+}
+
+#page-wrapper a:hover{
+    color: #3d80ba;
+  text-decoration: none;
+}
+
+
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
