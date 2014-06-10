@@ -135,6 +135,7 @@ class Rest_Client extends CI_Controller {
 		$this->load->view('wrapper_dashboard',$data);
 	}
 
+
 	public function detail_user($id){ 
 		$data['user'] = $this->rest->get('user/id/'.$id.'/format/json'); 
 		$data['output']	=$this->load->view('detail_user',$data,TRUE);
@@ -285,13 +286,23 @@ class Rest_Client extends CI_Controller {
 		{
     			$id_mk = $this->uri->segment(3);
 		}
+
 		
-		$query=$this->model_matkul->Lihat_Soal($id_mk);
-		$judul=$this->model_matkul->Judul_MK($id_mk);
-		$data = array('query' => $query,'judul'=>$judul);
+		$query =$this->rest->get('lihatsoal/'.$id_mk.'/format/json');
+		$judul =$this->rest->get('lihatsoal/'.$id_mk.'/format/json');
+
+		//$query =$this->rest->get('lihatsoal/'.$id_mk.'/format/json');
+		//$judul =$this->rest->get('lihatsoal/'.$id_mk.'/format/json');
+		$data['query']=$query; 
+		$data['judul']=$judul; 
+
+		
 		$data['output']	=$this->load->view('lihat_soal',$data,TRUE);
 		$this->load->view('wrapper_dashboard',$data);
 	}
+
+
+	
 
 
 	function ikutites()

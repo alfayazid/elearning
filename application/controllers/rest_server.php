@@ -171,8 +171,21 @@ function matkul_get() {
 
 
 	function lihatsoal_get() {  
+
+			$id_mk='';		
+		if ($this->uri->segment(3) === FALSE)
+		{
+    			$id_mk='';
+		}
+		else
+		{
+    			$id_mk = $this->uri->segment(3);
+		}
 			
-			$query = $this->model_matkul->tampil_matkul();   
+			
+			$query=$this->model_matkul->Lihat_Soal($id_mk);
+			$judul=$this->model_matkul->Judul_MK($id_mk); 
+
 			if($query) { $this->response($query, 200); 
 			}   
 			else { $this->response(array('error' => 'User could not be found'), 404); } 

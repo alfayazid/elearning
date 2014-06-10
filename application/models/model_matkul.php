@@ -35,9 +35,10 @@
 	
     function Lihat_Soal($id_mk)
         {
-            $tampil = $this->db->query("select * from tbl_soal left join tbl_matkul on tbl_soal.id_matkul=tbl_matkul.id where id_matkul='$id_mk'  group by 
+            
+            $tampil = $this->db->query("select * from tbl_soal left join tbl_matkul on tbl_soal.id_matkul=tbl_matkul.id where id_matkul='$id_mk' group by 
             tbl_soal.no_soal order by id_soal");
-            return $tampil;
+            return $tampil->result();
         }
 
     function Judul_MK($id_mk)
